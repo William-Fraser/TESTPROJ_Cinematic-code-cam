@@ -5,22 +5,36 @@ using UnityEngine;
 public class CinematicCam : MonoBehaviour
 {
     [Header("Cinematic Controls")]
+    public float start;
+
     public GameObject camDolly;
-    public GameObject lookAt;
+    public GameObject target;
     public float speed;
+    public float amplitude;
+    public float frequency;
+
     
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(-2.33f, 1.22f, -5.63f);
-        
+        camDolly.transform.position = new Vector3(start, camDolly.transform.position.y, camDolly.transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(lookAt.transform);
-        if (transform.position.z <= 5)
-            transform.position = Vector3.Lerp(transform.position, new Vector3(-2.33f, 1.22f, 5.63f), speed);
+        camDolly.transform.LookAt(target.transform);
+        camDolly.transform.position = new Vector3(camDolly.transform.position.x+speed, camDolly.transform.position.y, camDolly.transform.position.z);
+
+        Vector3 wobble;
+        wobble.x = PerlinNoise(Time.time, 0.0f);
+        wobble.y = PerlinNoise(Time.time, 1.0f);
+        wobble.z = 0;
+
+        transform.localPosition = wobble;
+    }
+    private float PerlinNoise(float x, float y)
+    {
+        return ((Mathf.PerlinNoise(x * frequency, y) * 2) - 1) * amplitude;
     }
 }
