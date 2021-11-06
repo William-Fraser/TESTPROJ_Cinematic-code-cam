@@ -7,7 +7,7 @@ public class CinematicCam : MonoBehaviour
     [Header("Cinematic Controls")]
     public float start;
 
-    public GameObject camDolly;
+    public GameObject camDoly;
     public GameObject target;
     public float speed;
     public float amplitude;
@@ -17,21 +17,22 @@ public class CinematicCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        camDolly.transform.position = new Vector3(start, camDolly.transform.position.y, camDolly.transform.position.z);
+        camDoly.transform.position = new Vector3(start, camDoly.transform.position.y, camDoly.transform.position.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        camDolly.transform.LookAt(target.transform);
-        camDolly.transform.position = new Vector3(camDolly.transform.position.x+speed, camDolly.transform.position.y, camDolly.transform.position.z);
+        camDoly.transform.LookAt(target.transform);
+        camDoly.transform.position = new Vector3(camDoly.transform.position.x+speed, camDoly.transform.position.y, camDoly.transform.position.z);
 
         Vector3 wobble;
-        wobble.x = PerlinNoise(Time.time, 0.0f);
-        wobble.y = PerlinNoise(Time.time, 1.0f);
+        wobble.x = PerlinNoise(0.0f, Time.time);
+        wobble.y = PerlinNoise(1.0f, Time.time);
         wobble.z = 0;
 
         transform.localPosition = wobble;
+        Debug.Log(Time.time);
     }
     private float PerlinNoise(float x, float y)
     {
